@@ -1,0 +1,250 @@
+units:
+    kx: cx
+    ky: cy
+points:
+  key:
+      padding: cy
+  zones:
+      main:
+          rows:
+              bottom:
+                row_net: P21
+                mirror.row_net: P5
+              home:
+                row_net: P20
+                mirror.row_net: P4
+              top:
+                row_net: P19
+                mirror.row_net: P0
+              num:
+                row_net: P18
+                mirror.row_net: P1
+          columns:
+          
+              far:
+                  key:
+                      splay: 28
+                      bind: [0,5,2,5]
+                      column_net: P15
+              index:
+                  key:
+                      spread: cx+4
+                      splay: -3
+                      stagger: 3
+                      bind: [0,5,2,5]
+                      column_net: P14
+                  
+              middle:
+                  key:
+                      spread: cx+3
+                      splay: -8
+                      stagger: -2
+                      bind: [0,5,2,5]
+                      column_net: P16
+              ring:
+                  key:
+                      spread: cx+7
+                      splay: -5
+                      stagger: 0.8
+                      bind: [0,5,2,5]
+                      column_net: P10
+              pinkie:
+                  key:
+                      spread: cx+8.7
+                      rotate: -18
+                      stagger: -20
+                      splay: 2
+                      shift: [0, 3]
+                      column_net: P6
+              pinkiefar:
+                  key:
+                      spread: cx+2.5
+                      rotate: -30
+                      stagger: -9
+                      splay: 1
+                      shift: [0, 4]
+                      column_net: P7
+          anchor: 
+            shift: [305, -175]
+
+      thumb:
+          anchor:
+              ref: main_far_bottom
+              shift: [-22, -37]
+              rotate: 10
+          rows:
+              cluster:
+                row_net: P9
+                mirror.row_net: P8
+          columns:
+              thumbinner:
+                  key:
+                      spread: cx
+                      column_net: P15
+              thumbmiddle:
+                  key:
+                      rotate: -10
+                      stagger: 6
+                      spread: cx+5
+                      column_net: P14
+              thumbouter:
+                  key:
+                      rotate: -26
+                      spread: cx+3
+                      stagger: -12
+                      column_net: P16
+
+        
+  mirror:
+    ref: main_far_home
+    distance: -5cx
+
+    
+    
+
+
+              
+outlines:
+  raw:
+  - what: rectangle
+    where: true
+    size: [cx, cy]
+  keys:
+  - what: rectangle
+    where: true
+    size: [cx+2, cy+2]
+  board:
+  - what: polygon
+    operation: stack
+    points:
+        - ref: main_far_num
+          shift: [-1cx, 1cy]
+        - ref: main_index_num
+          shift: [-1cx,1cy]
+        - ref: main_middle_num
+          shift: [-1cx,1cy]
+        - ref: main_ring_num
+          shift: [-1cx,1cy]
+        - ref: main_pinkie_num
+          shift: [-1cx,1cy]
+        - ref: main_pinkiefar_num
+          shift: [-0.9cx,1.cy]
+        - ref: main_pinkiefar_num
+          shift: [0.8cx,1cy]
+        - ref: main_pinkiefar_bottom
+          shift: [1cx,-1cy]
+        - ref: main_pinkie_bottom
+          shift: [0.5cx,-1cy]
+        - ref: main_pinkie_bottom
+          shift: [-1cx,-1cy]
+        - ref: main_ring_bottom
+          shift: [0.2cx,-1.2cy]
+        - ref: main_middle_bottom
+          shift: [0.5cx,-1cy]
+        - ref: thumb_thumbouter_cluster
+          shift: [cx, -0.9cy]
+        - ref: thumb_thumbmiddle_cluster
+          shift: [-0.2cx, -0.96cy]
+        - ref: thumb_thumbinner_cluster
+          shift: [0.8cx, -0.9cy]
+        - ref: thumb_thumbinner_cluster
+          shift: [-cx, -cy]
+        - ref: thumb_thumbinner_cluster
+          shift: [-cx, cy]
+        - ref: mirror_thumb_thumbinner_cluster
+          shift: [-cx,cy]
+        - ref: mirror_thumb_thumbinner_cluster
+          shift: [-cx,-cy]
+        - ref: mirror_thumb_thumbinner_cluster
+          shift: [0.8cx,-0.9cy]
+        - ref: mirror_thumb_thumbmiddle_cluster
+          shift: [-0.2cx, -0.96cy]
+        - ref: mirror_thumb_thumbouter_cluster
+          shift: [cx, -0.9cy]
+        - ref: mirror_main_middle_bottom
+          shift: [0.5cx,-1cy]
+        - ref: mirror_main_ring_bottom
+          shift: [0.2cx,-1.2cy]
+        - ref: mirror_main_pinkie_bottom
+          shift: [-1cx,-1cy]
+        - ref: mirror_main_pinkie_bottom
+          shift: [0.5cx,-1cy]
+        - ref: mirror_main_pinkie_bottom
+          shift: [0.5cx,-1cy]
+        - ref: mirror_main_pinkiefar_bottom
+          shift: [1cx,-1cy]
+        - ref: mirror_main_pinkiefar_num
+          shift: [0.8cx,1cy]
+        - ref: mirror_main_pinkiefar_num
+          shift: [-0.9cx,1.cy]
+        - ref: mirror_main_pinkie_num
+          shift: [-1cx,1cy]
+        - ref: mirror_main_ring_num
+          shift: [-1cx,1cy]
+        - ref: mirror_main_middle_num
+          shift: [-1cx,1cy]
+        - ref: mirror_main_index_num
+          shift: [-1cx,1cy]
+        - ref: mirror_main_far_num
+          shift: [-1cx, 1cy]
+    fillet: 2
+  combo:
+  - name: board
+  - operation: subtract
+    name: keys
+pcbs:
+  name:
+    outlines:
+      main:
+        outline: board
+    footprints:
+      mx_hotswap:
+        what: mx
+        where: true
+        params:
+          keycaps: true
+          reverse: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      diode:
+        what: diode
+        where: true
+        params: 
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+      promicro:
+        what: promicro
+        params:
+          orientation: "down"
+        where:
+          ref.aggregate.parts: [main_far_home, mirror_main_far_home]
+          shift: [0, 15]
+          rotate: -90
+      reset:
+        what: button
+        params:
+          from: GND
+          to: RST
+        where:
+          ref.aggregate.parts: [main_far_home, mirror_main_far_home]
+          shift: [0, -5]
+          rotate: -90
+
+
+
+
+    
+
+
+          
+
+
+
+
+
+        
+
+
